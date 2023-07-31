@@ -1,0 +1,95 @@
+openapi: 3.0.0
+info:
+  title: Home Library Service API
+  version: 1.0.0
+servers:
+  - url: http://localhost:4000/
+paths:
+  /user:
+    get:
+      description: Get all users
+      responses:
+        '200':
+          description: Successful operation
+    post:
+      description: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                  example: user4
+                password:
+                  type: string
+                  example: password4
+      responses:
+        '201':
+          description: Successful operation
+        '400':
+          description: Bad request
+    /user/{id}:
+      get:
+        description: Get user by ID
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+              format: uuid
+        responses:
+          '200':
+            description: Successful operation
+          '400':
+            description: Bad request
+          '404':
+            description: User not found
+      put:
+        description: Update user's password
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+              format: uuid
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  oldPassword:
+                    type: string
+                  newPassword:
+                    type: string
+        responses:
+          '200':
+            description: Successful operation
+          '400':
+            description: Bad request
+          '403':
+            description: Incorrect old password
+          '404':
+            description: User not found
+      delete:
+        description: Delete user
+        parameters:
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+              format: uuid
+        responses:
+          '204':
+            description: User deleted successfully
+          '400':
+            description: Bad request
+          '404':
+            description: User not found
